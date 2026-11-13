@@ -1,0 +1,79 @@
+erDiagram
+    FLOOR_PLANS ||--o{ PLAN_FEATURES : has
+    FLOOR_PLANS ||--o{ ADU_RENDERS : "rendered as"
+    ARCHITECTURAL_STYLES ||--o{ ADU_RENDERS : styles
+    RENDER_VIEWS ||--o{ ADU_RENDERS : shows
+    FLOOR_PLANS |o--o{ LEADS : "interests"
+    ARCHITECTURAL_STYLES |o--o{ LEADS : "preferred by"
+    APP_USERS |o--o{ LEADS : "assigned to"
+
+    FLOOR_PLANS {
+        int plan_id PK
+        varchar plan_name UK
+        int sqft
+        decimal base_price
+        int bedrooms
+        decimal bathrooms
+        int width_ft
+        int depth_ft
+    }
+    PLAN_FEATURES {
+        int plan_id PK,FK
+        varchar feature PK
+    }
+    ARCHITECTURAL_STYLES {
+        int style_id PK
+        varchar style_name UK
+    }
+    RENDER_VIEWS {
+        int view_id PK
+        varchar view_code UK
+        varchar view_label
+    }
+    ADU_RENDERS {
+        int render_id PK
+        int plan_id FK
+        int style_id FK
+        int view_id FK
+        varchar image_url
+        timestamp created_at
+    }
+    APP_USERS {
+        int user_id PK
+        varchar full_name
+        varchar email UK
+        varchar role
+        boolean is_agent
+    }
+    LEADS {
+        int lead_id PK
+        varchar full_name
+        varchar email
+        varchar phone
+        varchar street
+        varchar city
+        varchar zip
+        int plan_id FK
+        int style_id FK
+        varchar source
+        varchar status
+        timestamp submitted_at
+        timestamp first_contacted_at
+        int assigned_user_id FK
+    }
+    CONTACT_MESSAGES {
+        int message_id PK
+        varchar full_name
+        varchar email
+        varchar interest
+        varchar message
+        timestamp submitted_at
+    }
+    ADVISORY_BOARD_MEMBERS {
+        int member_id PK
+        varchar full_name
+        varchar board_role
+        varchar title
+        text bio
+        int display_order UK
+    }
